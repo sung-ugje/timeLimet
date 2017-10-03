@@ -1,0 +1,49 @@
+buildscript {
+    ext.kotlin_version = '1.1.51'
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+apply plugin: "kotlin"
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.1.51"
+}
+sourceSets {
+    main.kotlin.srcDirs += 'src/main/kotlin'
+    test.kotlin.srcDirs += 'src/test/kotlin'
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    testCompile "junit:junit:4.12"
+    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+}
+
+/*
+apply plugin: 'java'
+apply plugin:'application'
+
+mainClassName = 'kr.pe.theeye.MyApp'
+sourceCompatibility = 1.7
+version = '1.0'
+jar {
+    manifest {
+        attributes  'Title': 'My Application', 'Version': version, 'Main-Class': mainClassName
+    }
+    archiveName '.jar'
+    dependsOn configurations.runtime
+    from {
+        configurations.compile.collect {it.isDirectory()? it: zipTree(it)}
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '1.10'
+}
+*/

@@ -11,7 +11,7 @@ class TimeLimitTest {
         var result = isAllowedWeek(today, parm)
         assertEquals(true, result, "허용된 요일이 아닙니다.")
 
-        parm = "7-20".split(",")
+        parm = "7,9-20".split(",")
         result = isAllowedTime(today, parm)
         assertEquals(true, result, "허용된 시간이 아닙니다.")
 

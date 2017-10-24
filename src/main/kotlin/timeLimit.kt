@@ -41,7 +41,7 @@ fun main(args: Array<String>) {
  * Swing 으로 화면에 경고창을 발생 시킨다.
  */
 fun makeAlert(msg:String){
-    Runtime.getRuntime().exec("sendMsgMK.py $msg")
+    Runtime.getRuntime().exec("/usr/local/bin/sendMsgMK.py $msg")
 }
 
 /**
@@ -112,30 +112,7 @@ fun overLimitTime(today:Calendar, limitTime:List<String>, userid:String):Boolean
     if ( isDebug ) println("comfirm limitTime : $limit")
     var item:List<String>
     val sf = SimpleDateFormat("MMM/dd/yyyy HH:mm",Locale.ENGLISH)
-    //val lastStr = Runtime.getRuntime().exec("last -R $userid").inputStream.bufferedReader().readText()
-    val lastStr ="""mk       :0           Tue Oct  3 12:22   still logged in
-mk       :0           Tue Oct  3 12:21 - 12:21  (00:00)
-mk       :0           Tue Oct  3 12:17 - 12:17  (00:00)
-mk       :0           Tue Oct  3 12:16 - 12:16  (00:00)
-mk       :0           Tue Oct  3 12:11 - 12:11  (00:00)
-mk       :0           Tue Oct  3 12:10 - 12:10  (00:00)
-mk       :0           Tue Oct  3 12:10 - 12:10  (00:00)
-mk       :0           Tue Oct  3 12:09 - 12:09  (00:00)
-mk       :0           Tue Oct  3 12:09 - 12:09  (00:00)
-mk       :0           Tue Oct  3 12:09 - 12:09  (00:00)
-mk       :0           Tue Oct  3 12:08 - 12:08  (00:00)
-mk       :0           Tue Oct  3 12:04 - 12:08  (00:03)
-mk       :0           Tue Oct  3 12:02 - 12:03  (00:00)
-mk       :0           Tue Oct  3 10:47 - 10:47  (00:00)
-mk       :0           Tue Oct  3 10:47 - 10:47  (00:00)
-mk       :0           Tue Oct  3 10:46 - 10:46  (00:00)
-mk       :0           Tue Oct  3 06:49 - 08:18  (01:28)
-mk       :0           Mon Oct  2 19:05 - 19:29  (00:23)
-mk       :0           Mon Oct  2 19:04 - 19:04  (00:00)
-mk       :0           Mon Oct  2 18:08 - 19:04  (00:55)
-mk       :0           Mon Oct  2 13:07 - 13:08  (00:01)
-mk       :0           Mon Oct  2 06:53 - 07:44  (00:50)
-mk       :0           Sun Oct  1 06:33 - 07:23  (00:50)"""
+    val lastStr = Runtime.getRuntime().exec("last -R $userid").inputStream.bufferedReader().readText()
     if ( isDebug ) println("last \n $lastStr")
 
     val intime = Calendar.getInstance() // last 에서 읽어들인 시간
@@ -147,7 +124,7 @@ mk       :0           Sun Oct  1 06:33 - 07:23  (00:50)"""
         if ( isDebug ) print("Last Data userid : ${item[0]}")
         if(item[0] == userid){
             if ( isDebug ) print(", intime : ${item[3]}/${item[4]}/2017")
-            intime.setTime(sf.parse("${item[3]}/${item[4]}/2017 ${item[5]}"))
+            intime.time = sf.parse("${item[3]}/${item[4]}/2017 ${item[5]}")
             if(sdf.format(intime.time) == sdf.format(today.time)){
                 if ( isDebug ) print(", item : ${item[6]}")
                 if(item[6] == "still"){
@@ -173,8 +150,8 @@ mk       :0           Sun Oct  1 06:33 - 07:23  (00:50)"""
         return true
     } else {
         if (limit - runtime < 5){
-            makeAlert("You have ${(limit - runtime).toString()} minutes left on your computer." )
-            if ( isDebug ) println ("You have ${(limit - runtime).toString()} minutes left on your computer.")
+            makeAlert("You have ${(limit - runtime)} minutes left on your computer." )
+            if ( isDebug ) println ("You have ${(limit - runtime)} minutes left on your computer.")
         }
         if ( isDebug ) println ("Time limit pass")
         return false
